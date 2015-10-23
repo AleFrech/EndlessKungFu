@@ -4,7 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour {
 	
 	public float speed = 10f;
-	public bool Walking = false;
+	public bool grounded = true;
 	private Rigidbody2D rb2d;
 	private Animator anim;
 	// Use this for initialization
@@ -17,12 +17,16 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		anim.SetFloat ("speed", speed);
-		anim.SetBool ("Walking", Walking);
+		anim.SetFloat ("speed", Mathf.Abs (Input.GetAxis("Horizontal")));
+		print(Input.GetAxis("Horizontal"));
+		anim.SetBool ("Grounded", grounded);
 
-		float move = Input.GetAxis("Horizontal");
-		rb2d.velocity = new Vector2 (move * speed, rb2d.velocity.y);
 
 		//rb2d.AddForce(Vector2.right*move*speed);
+	}
+
+	void FixedUpdate(){
+		float move = Input.GetAxis("Horizontal");
+		rb2d.velocity = new Vector2 (move * speed, rb2d.velocity.y);
 	}
 }

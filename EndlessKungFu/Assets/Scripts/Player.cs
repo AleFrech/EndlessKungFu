@@ -4,7 +4,8 @@ using System.Collections;
 public class Player : MonoBehaviour {
 	
 	public float speed = 3f;
-	public bool grounded = true;
+	public bool lookingLeft = true;
+	public bool walking = false;
 	public bool attacking = false;
 	private Rigidbody2D rb2d;
 	private Animator anim;
@@ -17,12 +18,23 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKey (KeyCode.RightArrow) && lookingLeft) {
+			lookingLeft = false;
+		} else if (Input.GetKey (KeyCode.LeftArrow) && !lookingLeft) {
+			lookingLeft = true;
+		}
 
-		anim.SetFloat ("speed", Input.GetAxis("Horizontal"));
-		//print(Input.GetAxis("Horizontal"));
-		anim.SetBool ("Grounded", grounded);
-		anim.SetBool ("Attacking", (Input.GetKeyDown (KeyCode.Space)));
+		if ((Input.GetKey (KeyCode.LeftArrow) && lookingLeft) || (Input.GetKey (KeyCode.RightArrow) && !lookingLeft)) {
+			walking = true;
+		} else{ walking = false;}
 
+		attacking = (Input.GetKey (KeyCode.S));
+
+		anim.SetBool ("Attacking", attacking);
+
+		//Debug.Log (walking.ToString());
+		anim.SetBool("LookingLeft", lookingLeft);
+		anim.SetBool ("Walking", walking);
 		//rb2d.AddForce(Vector2.right*move*speed);
 	}
 

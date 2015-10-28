@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         crouching = (Input.GetKey(KeyCode.DownArrow));
+        kicking = (Input.GetKey(KeyCode.A));
         print((Input.GetKey(KeyCode.DownArrow)));
         if (Input.GetKey (KeyCode.RightArrow) && lookingLeft) {
 			lookingLeft = false;
@@ -38,7 +39,6 @@ public class Player : MonoBehaviour {
         //}
 
         attacking = (Input.GetKey (KeyCode.S));
-        kicking = (Input.GetKey(KeyCode.A));
 
         anim.SetBool ("Attacking", attacking);
         anim.SetBool("Crouching",crouching);

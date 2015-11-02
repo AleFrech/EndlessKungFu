@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -10,6 +11,10 @@ namespace Assets.Scripts
         public bool attacking = false;
         public bool crouching = false;
         public bool kicking = false;
+        public bool jumping = false;
+        public float base_y = 0.0f;
+        public float jump_velocity = 0.0f;
+
         private Rigidbody2D rb2d;
         private Animator anim;
         // Use this for initialization
@@ -17,6 +22,7 @@ namespace Assets.Scripts
       
             rb2d = gameObject.GetComponent<Rigidbody2D> ();
             anim = gameObject.GetComponent<Animator> ();
+            base_y = rb2d.position.y;
 
         }
 	
@@ -24,9 +30,10 @@ namespace Assets.Scripts
         void Update () {
             crouching = (Input.GetKey(KeyCode.DownArrow));
             kicking = (Input.GetKey(KeyCode.A));
+            jumping = (Input.GetKey(KeyCode.UpArrow));
 
 
-    
+
             if (Input.GetKey (KeyCode.RightArrow) && lookingLeft) {
                 lookingLeft = false;
             } else if (Input.GetKey (KeyCode.LeftArrow) && !lookingLeft) {
@@ -37,16 +44,25 @@ namespace Assets.Scripts
                 walking = true;
             } else{ walking = false;}
 
+
+
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                jumping = true;
+                rb2d.velocity = new Vector2(0, 2f);
+            }
+
             //if ((lookingLeft && Input.GetKeyUp(KeyCode.LeftArrow)) || (!lookingLeft && Input.GetKeyUp(KeyCode.RightArrow)))
             //{
             //    walking = false;
             //}
-
+      
             attacking = (Input.GetKey (KeyCode.S));
 
             anim.SetBool ("Attacking", attacking);
             anim.SetBool("Crouching",crouching);
             anim.SetBool("Kicking", kicking);
+            anim.SetBool("Jumping",jumping);
 
 
             //Debug.Log (walking.ToString());

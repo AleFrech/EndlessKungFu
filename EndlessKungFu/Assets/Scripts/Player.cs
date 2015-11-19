@@ -19,6 +19,8 @@ namespace Assets.Scripts
         private Animator anim;
         public AudioSource punch_sound;
         public AudioSource kick_sound;
+        public float soundRate;
+        private float nextSound;
         // Use this for initialization
         void Start()
         {
@@ -74,12 +76,11 @@ namespace Assets.Scripts
 
             if (attacking)
             {
-                if(!punch_sound.isPlaying)
-                       punch_sound.Play();
+  
             }
             if (kicking)
             {
-                kick_sound.Play();
+                
             }
             //if ((lookingLeft && Input.GetKeyUp(KeyCode.LeftArrow)) || (!lookingLeft && Input.GetKeyUp(KeyCode.RightArrow)))
             //{
@@ -106,5 +107,16 @@ namespace Assets.Scripts
                 rb2d.velocity = new Vector2(move * speed, rb2d.velocity.y);
             }
         }
+
+        void punchEffect()
+        {
+            punch_sound.Play();
+        }
+
+        void kickEffect()
+        {
+            kick_sound.Play();
+        }
+
     }
 }

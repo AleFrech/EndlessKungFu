@@ -64,14 +64,14 @@ namespace Assets.Scripts
 
 
 
-            if (Input.GetKey(KeyCode.UpArrow) && !jumping)
+            if (Input.GetKeyDown(KeyCode.UpArrow) && !jumping)
             {
                 jumping = true;
                 rb2d.velocity = new Vector2(0, 2f);
             }
             if (jumping && rb2d.position.y <= base_y)
             {
-                jumping = false;
+                //jumping = false;
             }
 
             if (attacking)

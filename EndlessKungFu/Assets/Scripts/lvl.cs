@@ -3,8 +3,8 @@ using System.Collections;
 
 public class lvl : MonoBehaviour {
 
-    public static AudioSource background_sound;
-    public static AudioClip backgroundClip;
+    public  AudioSource background_sound;
+    public  AudioClip backgroundClip;
 
     // Use this for initialization
     void Start () {

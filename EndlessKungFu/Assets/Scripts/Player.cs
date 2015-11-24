@@ -35,6 +35,7 @@ namespace Assets.Scripts
             kick_sound.clip = kickClip;  
         }
 
+
         // Update is called once per frame
         void Update()
         {
@@ -71,7 +72,8 @@ namespace Assets.Scripts
             }
             if (jumping && rb2d.position.y <= base_y)
             {
-                //jumping = false;
+                jumping = false;
+                base_y = (base_y == -2.086f ? -2.082f : -2.086f);
             }
 
             if (attacking)

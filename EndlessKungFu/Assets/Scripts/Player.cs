@@ -42,12 +42,8 @@ namespace Assets.Scripts
             crouching = (Input.GetKey(KeyCode.DownArrow));
             kicking = (Input.GetKey(KeyCode.A));
             attacking = (Input.GetKey(KeyCode.S));
-            //soundcheck = (Input.GetKey(KeyCode.S));
-            
+            //soundcheck = (Input.GetKey(KeyCode.S));     
             //jumping = (Input.GetKey(KeyCode.UpArrow));
-
-
-
             if (Input.GetKey(KeyCode.RightArrow) && lookingLeft)
             {
                 lookingLeft = false;
@@ -62,9 +58,6 @@ namespace Assets.Scripts
                 walking = true;
             }
             else { walking = false; }
-
-
-
             if (Input.GetKeyDown(KeyCode.UpArrow) && !jumping)
             {
                 jumping = true;
@@ -75,7 +68,6 @@ namespace Assets.Scripts
                 jumping = false;
                 base_y = (base_y == -2.086f ? -2.082f : -2.086f);
             }
-
             if (attacking)
             {
   
@@ -88,19 +80,15 @@ namespace Assets.Scripts
             //{
             //    walking = false;
             //}
-
             anim.SetBool("Attacking", attacking);
             anim.SetBool("Crouching", crouching);
             anim.SetBool("Kicking", kicking);
             anim.SetBool("Jumping", jumping);
-
-
             //Debug.Log (walking.ToString());
             anim.SetBool("LookingLeft", lookingLeft);
             anim.SetBool("Walking", walking);
             //rb2d.AddForce(Vector2.right*move*speed);
         }
-
         void FixedUpdate()
         {
             if (walking)
@@ -109,7 +97,6 @@ namespace Assets.Scripts
                 rb2d.velocity = new Vector2(move * speed, rb2d.velocity.y);
             }
         }
-
         void punchEffect()
         {
             punch_sound.Play();
@@ -119,6 +106,5 @@ namespace Assets.Scripts
         {
             kick_sound.Play();
         }
-
     }
 }

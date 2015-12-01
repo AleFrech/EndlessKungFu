@@ -32,6 +32,8 @@ public class Spawner_Time : MonoBehaviour
     void Spawn()
     {
         //Pueden Modificar Esto para otras validaciones.
-        var ObjectSpawned = Instantiate(objectToSpawn);
+        var ObjectSpawned =(GameObject)Instantiate(objectToSpawn);
+		ObjectSpawned.transform.position = this.transform.position;
+		ObjectSpawned.transform.parent = this.transform;
     }
 }

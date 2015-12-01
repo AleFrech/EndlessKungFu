@@ -5,104 +5,122 @@ namespace Assets.Scripts
 {
     public class Player : MonoBehaviour
     {
-
-        public float speed = 1f;
-        public bool lookingLeft = true;
+		public bool facingLeft = true;
+		public float moveForce = 5f;
+		public float maxSpeed = 3f;
+		public float jumpForce = 150f;
         public bool walking = false;
         public bool attacking = false;
         public bool crouching = false;
         public bool kicking = false;
         public bool jumping = false;
-        public float base_y = 0.0f;
-        public float jump_velocity = 0.0f;
-        private Rigidbody2D rb2d;
         private Animator anim;
-        public AudioSource punch_sound;
         public AudioSource kick_sound;
-        public float soundRate;
-        private float nextSound;
-        // Use this for initialization
-        void Start()
-        {
-            rb2d = gameObject.GetComponent<Rigidbody2D>();
-            anim = gameObject.GetComponent<Animator>();
-            base_y = -2.08f;
+        public AudioSource punch_sound;
+        public Transform groundCheck;
+		public Transform headCheck;
+    	private bool grounded = false;
+		private Rigidbody2D rb2d;
+		public Animator player_Animation;
+		public LayerMask mask;
+
+		
+		// Use this for initialization
+		void Awake () 
+		{
+			rb2d = GetComponent<Rigidbody2D>();
+			player_Animation = GetComponent<Animator> ();
             punch_sound = gameObject.AddComponent<AudioSource>();
-            kick_sound = gameObject.AddComponent<AudioSource>();
-            var punchClip = (AudioClip) Resources.Load("Sounds/Punch Effect");
-            var kickClip = (AudioClip)Resources.Load("Sounds/Kick Effect");
+            anim = gameObject.GetComponent<Animator>();
+            var punchClip = (AudioClip)Resources.Load("Sounds/Punch Effect");
             punch_sound.clip = punchClip;
-            kick_sound.clip = kickClip;  
-        }
-
-
-        // Update is called once per frame
-        void Update()
-        {
-            crouching = (Input.GetKey(KeyCode.DownArrow));
-            kicking = (Input.GetKey(KeyCode.A));
-            attacking = (Input.GetKey(KeyCode.S));
-            //soundcheck = (Input.GetKey(KeyCode.S));     
-            //jumping = (Input.GetKey(KeyCode.UpArrow));
-            if (Input.GetKey(KeyCode.RightArrow) && lookingLeft)
-            {
-                lookingLeft = false;
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow) && !lookingLeft)
-            {
-                lookingLeft = true;
-            }
-
-            if (((Input.GetKey(KeyCode.LeftArrow) && lookingLeft) || (Input.GetKey(KeyCode.RightArrow) && !lookingLeft)) && !crouching)
-            {
-                walking = true;
-            }
-            else { walking = false; }
-            if (Input.GetKeyDown(KeyCode.UpArrow) && !jumping)
-            {
-                jumping = true;
-                rb2d.velocity = new Vector2(0, 2f);
-            }
-            if (jumping && rb2d.position.y <= base_y)
-            {
-                jumping = false;
-                base_y = (base_y == -2.086f ? -2.082f : -2.086f);
-            }
-            if (attacking)
-            {
-  
-            }
-            if (kicking)
-            {
-                
-            }
-            //if ((lookingLeft && Input.GetKeyUp(KeyCode.LeftArrow)) || (!lookingLeft && Input.GetKeyUp(KeyCode.RightArrow)))
-            //{
-            //    walking = false;
-            //}
+            kick_sound = gameObject.AddComponent<AudioSource>();
+            var kickClip = (AudioClip)Resources.Load("Sounds/Kick Effect");
+		    kick_sound.clip = kickClip;
+		}
+		
+		// Update is called once per frame
+		void Update () 
+		{
+			grounded = Physics2D.Linecast (transform.position, groundCheck.position, mask);
+		}
+		
+		void FixedUpdate()
+		{
             anim.SetBool("Attacking", attacking);
             anim.SetBool("Crouching", crouching);
             anim.SetBool("Kicking", kicking);
             anim.SetBool("Jumping", jumping);
-            //Debug.Log (walking.ToString());
-            anim.SetBool("LookingLeft", lookingLeft);
             anim.SetBool("Walking", walking);
-            //rb2d.AddForce(Vector2.right*move*speed);
+            float h = Input.GetAxis("Horizontal");
+			float v = Input.GetAxis ("Jump");
+		    float c = Input.GetAxis("Crouch");
+
+		    if (h*rb2d.velocity.x < maxSpeed)
+		        rb2d.AddForce(Vector2.right*h*moveForce);
+		    
+		    if (c > 0)
+		        crouching = true;
+		    else
+		        crouching = false;
+		    
+
+		    if (Mathf.Abs(rb2d.velocity.x) > maxSpeed)
+		    {
+		        walking = true;
+		        rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x)*maxSpeed, rb2d.velocity.y);
+		    }
+		    else
+		    {
+		        walking = false;
+		    }
+
+		    if (v > 0 && grounded && rb2d.velocity.y == 0)
+		    {
+		        jumping = true;
+		        rb2d.AddForce(new Vector2(0, jumpForce));
+		    }
+		    else
+                jumping = false;
+
+			if (h < 0 && !facingLeft)
+				Flip ();
+			else if (h > 0 && facingLeft)
+				Flip ();
+
         }
-        void FixedUpdate()
-        {
-            if (walking)
-            {
-                float move = Input.GetAxis("Horizontal") / 2;
-                rb2d.velocity = new Vector2(move * speed, rb2d.velocity.y);
-            }
+
+		void Flip()
+		{
+			facingLeft = !facingLeft;
+			Vector3 theScale = transform.localScale;
+			theScale.x *= -1;
+			transform.localScale = theScale;
+		}
+
+		void OnTriggerStay2D(Collider2D col)
+		{
+			float punch = Input.GetAxis ("Fire1");
+		    float kick = Input.GetAxis("Kick");
+		    if (punch >0)
+                attacking = true;
+            else
+		        attacking = false;
+		    if (kick > 0)
+		        kicking = true;
+		    else
+		        kicking = false;    
+			if ((col.transform.tag == "Enemy" && punch > 0)|| (col.transform.tag == "Enemy" && kick > 0)) 
+			{
+				Destroy(col.gameObject);
+			}
+
         }
-        void punchEffect()
+        void PunchEffect()
         {
             punch_sound.Play();
         }
-
-        void kickEffect()
+        void KickEffect()
         {
             kick_sound.Play();
         }

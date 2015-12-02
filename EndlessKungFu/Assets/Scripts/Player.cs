@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -24,6 +25,9 @@ namespace Assets.Scripts
 		public Animator player_Animation;
 		public LayerMask mask;
 
+
+        public int score = 0;
+        [SerializeField] public Text WOT;
 		
 		// Use this for initialization
 		void Awake () 
@@ -44,38 +48,49 @@ namespace Assets.Scripts
 		{
 			grounded = Physics2D.Linecast (transform.position, groundCheck.position, mask);
 		}
-		
-		void FixedUpdate()
-		{
-            anim.SetBool("Attacking", attacking);
-            anim.SetBool("Crouching", crouching);
-            anim.SetBool("Kicking", kicking);
-            anim.SetBool("Jumping", jumping);
-            anim.SetBool("Walking", walking);
+
+        void FixedUpdate()
+        {
+
             float h = Input.GetAxis("Horizontal");
-			float v = Input.GetAxis ("Jump");
-		    float c = Input.GetAxis("Crouch");
+            float v = Input.GetAxis("Jump");
+            float c = Input.GetAxis("Crouch");
+            float punch = Input.GetAxis("Fire1");
+            float kick = Input.GetAxis("Kick");
+            if (punch > 0)
+                attacking = true;
+            else
+                attacking = false;
+            if (kick > 0)
+                kicking = true;
+            else
+                kicking = false;
 
-		    if (h*rb2d.velocity.x < maxSpeed)
-		        rb2d.AddForce(Vector2.right*h*moveForce);
-		    
-		    if (c > 0)
-		        crouching = true;
-		    else
-		        crouching = false;
-		    
+            if (h*rb2d.velocity.x < maxSpeed)
+                rb2d.AddForce(Vector2.right*h*moveForce);
 
-		    if (Mathf.Abs(rb2d.velocity.x) > maxSpeed)
-		    {
-		        walking = true;
-		        rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x)*maxSpeed, rb2d.velocity.y);
-		    }
-		    else
-		    {
-		        walking = false;
-		    }
+            if (c > 0)
+                crouching = true;
+            else
+                crouching = false;
 
-		    if (v > 0 && grounded && rb2d.velocity.y == 0)
+
+            if (Mathf.Abs(rb2d.velocity.x) > maxSpeed)
+            {
+                rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x)*maxSpeed, rb2d.velocity.y);
+            }
+
+
+            if (h != 0)
+            {
+                walking = true;
+            }
+            else
+            {
+                walking = false;
+            }
+
+            if (v > 0 && grounded && rb2d.velocity.y == 0)
 		    {
 		        jumping = true;
 		        rb2d.AddForce(new Vector2(0, jumpForce));
@@ -83,7 +98,13 @@ namespace Assets.Scripts
 		    else
                 jumping = false;
 
-			if (h < 0 && !facingLeft)
+            anim.SetBool("Attacking", attacking);
+            anim.SetBool("Crouching", crouching);
+            anim.SetBool("Kicking", kicking);
+            anim.SetBool("Jumping", jumping);
+            anim.SetBool("Walking", walking);
+
+            if (h < 0 && !facingLeft)
 				Flip ();
 			else if (h > 0 && facingLeft)
 				Flip ();
@@ -99,23 +120,28 @@ namespace Assets.Scripts
 		}
 
 		void OnTriggerStay2D(Collider2D col)
-		{
-			float punch = Input.GetAxis ("Fire1");
-		    float kick = Input.GetAxis("Kick");
-		    if (punch >0)
-                attacking = true;
-            else
-		        attacking = false;
-		    if (kick > 0)
-		        kicking = true;
-		    else
-		        kicking = false;    
-			if ((col.transform.tag == "Enemy" && punch > 0)|| (col.transform.tag == "Enemy" && kick > 0)) 
+		{  
+			if ((col.transform.tag == "Enemy") &&(attacking || kicking)) 
 			{
-				Destroy(col.gameObject);
+				col.gameObject.GetComponent<Enemy1>().Die();
+			    if (kicking)
+			    {
+			        AddScore(20);
+			    }
+			    if (attacking)
+			    {
+			        AddScore(10);
+			    }
 			}
 
         }
+
+        void AddScore(int x)
+        {
+            score += x;
+            WOT.text = score.ToString();
+        }
+
         void PunchEffect()
         {
             punch_sound.Play();

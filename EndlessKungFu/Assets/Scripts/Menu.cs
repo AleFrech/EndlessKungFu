@@ -16,7 +16,7 @@ public class Menu : MonoBehaviour
     void Start ()
 	{
 	    playButton = playButton.GetComponent<Button>();
-        exitButton = playButton.GetComponent<Button>();
+        exitButton = exitButton.GetComponent<Button>();
         background_sound = gameObject.AddComponent<AudioSource>();
         backgroundClip = (AudioClip)Resources.Load("Sounds/Game_Start");
         background_sound.clip = backgroundClip;
@@ -32,6 +32,11 @@ public class Menu : MonoBehaviour
     {
         //background_sound.Play();
         Application.LoadLevel(1);
+    }
+
+    public void viewScores()
+    {
+        Application.LoadLevel(2);
     }
 
     public void exitGame()

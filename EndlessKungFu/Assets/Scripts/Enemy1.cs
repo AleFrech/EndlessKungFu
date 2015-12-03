@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
 public class Enemy1 : MonoBehaviour
 {
@@ -8,7 +9,10 @@ public class Enemy1 : MonoBehaviour
     private Animator anim;
     public float move = 0.4f;
     public bool facingLeft;
-
+    public int x_;
+    public float timewithin;
+    public bool isAttacking;
+    public float attackTime;
     // Use this for initialization
     void Start ()
 	{
@@ -27,19 +31,53 @@ public class Enemy1 : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-
+        anim.SetBool("isAttacking",isAttacking);
         rb2d.velocity = new Vector2(move * 1f, rb2d.velocity.y);
-    
+	    if (attackTime > .30)
+	    {
+	        isAttacking = false;
+	    }
+	    if (isAttacking)
+	    {
+	        attackTime += Time.deltaTime;
+	    }
 
     }
 
 
     public void Die()
     {
-        GetComponent<BoxCollider2D>().enabled = false;
-        rb2d.gravityScale = .2f;
-        anim.SetBool("isDead",true);
+        anim.SetBool("isDead", true);
 
+        foreach (var x in GetComponents<BoxCollider2D>())
+        {
+            x.enabled = false;
+        }
+
+        move = -move;
+       
+        
+        rb2d.AddForce(new Vector2(0,10));
         Destroy(gameObject,8);
+    }
+
+    public void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.transform.tag == "Player")
+        {
+            timewithin += Time.deltaTime;
+            if (timewithin>.5)
+            {
+                isAttacking = true;
+                col.transform.gameObject.GetComponent<Player>().Kill();
+            }
+        }
+    }
+    public void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.transform.tag == "Player")
+        {
+            timewithin = 0;
+        }
     }
 }

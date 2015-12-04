@@ -8,7 +8,7 @@ namespace Assets.Scripts
     {
         public bool isDead;
         public bool canBeKilled = true;
-        public bool deathAnimPlayed=false;
+        public bool deathAnimPlayed = false;
         public bool facingLeft = true;
         public float moveForce = 5f;
         public float maxSpeed = 3f;
@@ -21,6 +21,7 @@ namespace Assets.Scripts
         private Animator anim;
         public AudioSource kick_sound;
         public AudioSource punch_sound;
+        public AudioSource gameOver_sound;
         public Transform groundCheck;
         public Transform headCheck;
         private bool grounded = false;
@@ -29,7 +30,8 @@ namespace Assets.Scripts
         public LayerMask mask;
         public float deathTime;
         public int score = 0;
-        [SerializeField] public Text WOT;
+        [SerializeField]
+        public Text WOT;
 
         // Use this for initialization
         void Awake()
@@ -37,11 +39,14 @@ namespace Assets.Scripts
             rb2d = GetComponent<Rigidbody2D>();
             player_Animation = GetComponent<Animator>();
             punch_sound = gameObject.AddComponent<AudioSource>();
+            gameOver_sound = gameObject.AddComponent<AudioSource>();
+            var gameOverClip = (AudioClip)Resources.Load("Sounds/Game_Over");
+            gameOver_sound.clip = gameOverClip;
             anim = gameObject.GetComponent<Animator>();
-            var punchClip = (AudioClip) Resources.Load("Sounds/Punch Effect");
+            var punchClip = (AudioClip)Resources.Load("Sounds/Punch Effect");
             punch_sound.clip = punchClip;
             kick_sound = gameObject.AddComponent<AudioSource>();
-            var kickClip = (AudioClip) Resources.Load("Sounds/Kick Effect");
+            var kickClip = (AudioClip)Resources.Load("Sounds/Kick Effect");
             kick_sound.clip = kickClip;
         }
 
@@ -56,42 +61,26 @@ namespace Assets.Scripts
             }
             if (isDead)
             {
-                deathTime+= Time.deltaTime;
+                if (!gameOver_sound.isPlaying)
+                    gameOver_sound.Play();
+                deathTime += Time.deltaTime;
             }
-            if (deathTime >=2)
+            if (deathTime >= 3.2)
             {
                 EndGame();
             }
 
         }
 
-        void FixedUpdate()
+        public void moveHorizontal(float lado)
         {
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Jump");
-            float c = Input.GetAxis("Crouch");
-            float punch = Input.GetAxis("Fire1");
-            float kick = Input.GetAxis("Kick");
-            if (punch > 0)
-                attacking = true;
-            else
-                attacking = false;
-            if (kick > 0)
-                kicking = true;
-            else
-                kicking = false;
-
-            if (h*rb2d.velocity.x < maxSpeed)
-                rb2d.AddForce(Vector2.right*h*moveForce);
-            if (c > 0)
-                crouching = true;
-            else
-                crouching = false;
-            if (Mathf.Abs(rb2d.velocity.x) > maxSpeed)
+            anim.SetBool("Walking", walking);
+            if (lado * rb2d.velocity.x < maxSpeed && !crouching && !attacking && !kicking && !jumping)
             {
-                rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x)*maxSpeed, rb2d.velocity.y);
+                rb2d.AddForce(Vector2.right * lado * moveForce);
+
             }
-            if (h != 0)
+            if (lado != 0)
             {
                 walking = true;
             }
@@ -100,9 +89,46 @@ namespace Assets.Scripts
                 walking = false;
             }
 
+            if (lado < 0 && !facingLeft)
+                Flip();
+            else if (lado > 0 && facingLeft)
+                Flip();
+        }
+        void FixedUpdate()
+        {
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Jump");
+            float c = Input.GetAxis("Crouch");
+            float punch = Input.GetAxis("Fire1");
+            float kick = Input.GetAxis("Kick");
+
+            if (punch > 0)
+            {
+                attacking = true;
+            }
+            else
+                attacking = false;
+            if (kick > 0)
+                kicking = true;
+            else
+                kicking = false;
+
+            moveHorizontal(h);
+            if (c > 0)
+                crouching = true;
+            else
+                crouching = false;
+
+            if (Mathf.Abs(rb2d.velocity.x) > maxSpeed)
+            {
+                rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxSpeed, rb2d.velocity.y);
+            }
+
+
             if (v > 0 && grounded && rb2d.velocity.y == 0)
             {
                 jumping = true;
+                walking = false;
                 rb2d.AddForce(new Vector2(0, jumpForce));
             }
             else
@@ -112,12 +138,6 @@ namespace Assets.Scripts
             anim.SetBool("Crouching", crouching);
             anim.SetBool("Kicking", kicking);
             anim.SetBool("Jumping", jumping);
-            anim.SetBool("Walking", walking);
-
-            if (h < 0 && !facingLeft)
-                Flip();
-            else if (h > 0 && facingLeft)
-                Flip();
 
         }
 
@@ -180,5 +200,5 @@ namespace Assets.Scripts
         {
             Application.LoadLevel(0);
         }
-}
+    }
 }

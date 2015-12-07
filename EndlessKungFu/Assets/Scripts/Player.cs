@@ -72,9 +72,9 @@ namespace Assets.Scripts
 
         }
 
-        public void moveHorizontal(float lado)
+        public void Move(float lado)
         {
-            anim.SetBool("Walking", walking);
+           
             if (lado * rb2d.velocity.x < maxSpeed && !crouching && !attacking && !kicking && !jumping)
             {
                 rb2d.AddForce(Vector2.right * lado * moveForce);
@@ -93,39 +93,12 @@ namespace Assets.Scripts
                 Flip();
             else if (lado > 0 && facingLeft)
                 Flip();
+            anim.SetBool("Walking", walking);
         }
-        void FixedUpdate()
+
+        public void Jump(float jump)
         {
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Jump");
-            float c = Input.GetAxis("Crouch");
-            float punch = Input.GetAxis("Fire1");
-            float kick = Input.GetAxis("Kick");
-
-            if (punch > 0)
-            {
-                attacking = true;
-            }
-            else
-                attacking = false;
-            if (kick > 0)
-                kicking = true;
-            else
-                kicking = false;
-
-            moveHorizontal(h);
-            if (c > 0)
-                crouching = true;
-            else
-                crouching = false;
-
-            if (Mathf.Abs(rb2d.velocity.x) > maxSpeed)
-            {
-                rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxSpeed, rb2d.velocity.y);
-            }
-
-
-            if (v > 0 && grounded && rb2d.velocity.y == 0)
+            if (jump > 0 && grounded && rb2d.velocity.y == 0)
             {
                 jumping = true;
                 walking = false;
@@ -133,12 +106,52 @@ namespace Assets.Scripts
             }
             else
                 jumping = false;
-
-            anim.SetBool("Attacking", attacking);
-            anim.SetBool("Crouching", crouching);
-            anim.SetBool("Kicking", kicking);
             anim.SetBool("Jumping", jumping);
+        }
 
+        public void Crouch(float crouch)
+        {
+            if (crouch > 0)
+                crouching = true;
+            else
+                crouching = false;
+            anim.SetBool("Crouching", crouching);
+        }
+
+        public void Punch(float punch)
+        {
+            if (punch > 0)
+            {
+                attacking = true;
+            }
+            else
+                attacking = false;
+            anim.SetBool("Attacking", attacking);
+        }
+
+        public void Kick(float kick)
+        {
+            if (kick > 0)
+                kicking = true;
+            else
+                kicking = false;
+            anim.SetBool("Kicking", kicking);
+        }
+
+        void FixedUpdate()
+        {
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Jump");
+            float c = Input.GetAxis("Crouch");
+            float p = Input.GetAxis("Fire1");
+            float k = Input.GetAxis("Kick");
+            Punch(p);
+            Kick(k);
+            Move(h);           
+            Crouch(c);
+            Jump(v);
+            if (Mathf.Abs(rb2d.velocity.x) > maxSpeed)
+                rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxSpeed, rb2d.velocity.y);
         }
 
         void Flip()

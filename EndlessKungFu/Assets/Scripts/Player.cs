@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
+    
     public class Player : MonoBehaviour
     {
         public bool isDead;
@@ -53,6 +54,11 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
+
+
+
+
+
             grounded = Physics2D.Linecast(transform.position, groundCheck.position, mask);
             if (isDead || !deathAnimPlayed)
             {
@@ -69,6 +75,7 @@ namespace Assets.Scripts
             {
                 EndGame();
             }
+
 
         }
 
@@ -162,26 +169,23 @@ namespace Assets.Scripts
             transform.localScale = theScale;
         }
 
-        void OnTriggerStay2D(Collider2D col)
+
+        public void AddScore()
         {
-            if ((col.transform.tag == "Enemy") && (attacking || kicking))
+            if (kicking)
             {
-                col.gameObject.GetComponent<Enemy1>().Die();
-                if (kicking)
-                {
-                    AddScore(10);
-                }
-                if (attacking)
-                {
-                    AddScore(20);
-                }
+                score += 10;
             }
+            if (attacking)
+            {
+                score += 20;
+            }
+            WOT.text = score.ToString();
         }
 
-        void AddScore(int x)
+        public string getScore()
         {
-            score += x;
-            WOT.text = score.ToString();
+            return WOT.text;
         }
 
         void PunchEffect()
@@ -207,11 +211,13 @@ namespace Assets.Scripts
                 isDead = true;
                 canBeKilled = false;
             }
+           
         }
 
         void EndGame()
         {
-            Application.LoadLevel(0);
+            Score.score = int.Parse(WOT.text);
+            Application.LoadLevel(3);
         }
     }
 }

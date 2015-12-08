@@ -44,7 +44,6 @@ public class Enemy1 : MonoBehaviour
 
     }
 
-
     public void Die()
     {
         anim.SetBool("isDead", true);
@@ -54,9 +53,7 @@ public class Enemy1 : MonoBehaviour
             x.enabled = false;
         }
 
-        move = -move;
-       
-        
+        move = -move;      
         rb2d.AddForce(new Vector2(0,10));
         Destroy(gameObject,8);
     }

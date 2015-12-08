@@ -72,14 +72,17 @@
     <Compile Include="Assets\Scripts\CheckPoint.cs" />
     <Compile Include="Assets\Scripts\Enemy1.cs" />
     <Compile Include="Assets\Scripts\Follow.cs" />
+    <Compile Include="Assets\Scripts\GameOver.cs" />
     <Compile Include="Assets\Scripts\HighScore.cs" />
-    <Compile Include="Assets\Scripts\HighScoreCamera.cs" />
+    <Compile Include="Assets\Scripts\KickHit.cs" />
     <Compile Include="Assets\Scripts\Menu.cs" />
-    <Compile Include="Assets\Scripts\MenuCamera.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\PunchEnable.cs" />
+    <Compile Include="Assets\Scripts\PunchHit.cs" />
+    <Compile Include="Assets\Scripts\Score.cs" />
     <Compile Include="Assets\Scripts\SpawnPointActivator.cs" />
     <Compile Include="Assets\Scripts\Spawner_Time.cs" />
+    <Compile Include="Assets\Scripts\crocuhKickHit.cs" />
+    <Compile Include="Assets\Scripts\crouchPunchHit.cs" />
     <Compile Include="Assets\Scripts\lvl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

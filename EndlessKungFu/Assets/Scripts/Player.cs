@@ -30,11 +30,8 @@ namespace Assets.Scripts
         public Animator player_Animation;
         public LayerMask mask;
         public float deathTime;
-        public int score = 0;
-        [SerializeField]
         public Text WOT;
-
-        // Use this for initialization
+        public  int Score;
         void Awake()
         {
             rb2d = GetComponent<Rigidbody2D>();
@@ -49,16 +46,12 @@ namespace Assets.Scripts
             kick_sound = gameObject.AddComponent<AudioSource>();
             var kickClip = (AudioClip)Resources.Load("Sounds/Kick Effect");
             kick_sound.clip = kickClip;
+            Score = 0;
         }
 
         // Update is called once per frame
         void Update()
         {
-
-
-
-
-
             grounded = Physics2D.Linecast(transform.position, groundCheck.position, mask);
             if (isDead || !deathAnimPlayed)
             {
@@ -75,17 +68,14 @@ namespace Assets.Scripts
             {
                 EndGame();
             }
-
-
+            WOT.text = ""+Score;
         }
 
         public void Move(float lado)
         {
-           
             if (lado * rb2d.velocity.x < maxSpeed && !crouching && !attacking && !kicking && !jumping)
             {
                 rb2d.AddForce(Vector2.right * lado * moveForce);
-
             }
             if (lado != 0)
             {
@@ -170,22 +160,14 @@ namespace Assets.Scripts
         }
 
 
-        public void AddScore()
+        public void AddScore(int x)
         {
-            if (kicking)
-            {
-                score += 10;
-            }
-            if (attacking)
-            {
-                score += 20;
-            }
-            WOT.text = score.ToString();
+            Score += x;
         }
 
-        public string getScore()
+        public string GetScore()
         {
-            return WOT.text;
+            return Score.ToString();
         }
 
         void PunchEffect()
@@ -197,7 +179,6 @@ namespace Assets.Scripts
         {
             kick_sound.Play();
         }
-
         public void Kill()
         {
             GetComponent<Rigidbody2D>().gravityScale = 0;
@@ -210,14 +191,12 @@ namespace Assets.Scripts
             {
                 isDead = true;
                 canBeKilled = false;
-            }
-           
+            }  
         }
-
         void EndGame()
         {
-            Score.score = int.Parse(WOT.text);
             Application.LoadLevel(3);
+            GameOver.score = Score;
         }
     }
 }

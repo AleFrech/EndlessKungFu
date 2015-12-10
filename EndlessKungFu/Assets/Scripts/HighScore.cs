@@ -4,19 +4,19 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class HighScore : MonoBehaviour {
-    public Button nextButton;
     public Button backButton;
-
+    public Text Score1;
+    public Text Score2;
+    public Text Score3;
     // Use this for initialization
     void Start()
     {
-        nextButton = nextButton.GetComponent<Button>();
-        backButton = backButton.GetComponent<Button>();
+        LoadScore();
     }
 
     void update()
     {
-
+       
     }
 
 
@@ -25,8 +25,10 @@ public class HighScore : MonoBehaviour {
         Application.LoadLevel(0);
     }
 
-    public void nextPages()
+    void LoadScore()
     {
-        Debug.Log("Yes");
+        Score1.text = PlayerPrefs.GetInt("Score1").ToString();
+        Score2.text = PlayerPrefs.GetInt("Score2").ToString();
+        Score3.text = PlayerPrefs.GetInt("Score3").ToString();
     }
 }

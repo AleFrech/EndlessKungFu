@@ -27,7 +27,7 @@ public class PunchHit : MonoBehaviour {
         {
             
                 col.gameObject.GetComponent<Enemy1>().Die();
-                playerController.AddScore();
+                playerController.AddScore(20);
           
         }
     }

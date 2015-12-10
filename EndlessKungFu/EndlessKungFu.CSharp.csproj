@@ -78,7 +78,6 @@
     <Compile Include="Assets\Scripts\Menu.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PunchHit.cs" />
-    <Compile Include="Assets\Scripts\Score.cs" />
     <Compile Include="Assets\Scripts\SpawnPointActivator.cs" />
     <Compile Include="Assets\Scripts\Spawner_Time.cs" />
     <Compile Include="Assets\Scripts\crocuhKickHit.cs" />

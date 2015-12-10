@@ -29,7 +29,7 @@ public class KickHit : MonoBehaviour {
         {
 
             col.gameObject.GetComponent<Enemy1>().Die();
-            playerController.AddScore();
+            playerController.AddScore(10);
 
         }
     }

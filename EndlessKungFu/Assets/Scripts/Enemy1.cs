@@ -63,7 +63,7 @@ public class Enemy1 : MonoBehaviour
         if (col.transform.tag == "Player")
         {
             timewithin += Time.deltaTime;
-            if (timewithin>0.3)
+            if (timewithin>0.1)
             {
                 isAttacking = true;
                 col.transform.gameObject.GetComponent<Player>().Kill();

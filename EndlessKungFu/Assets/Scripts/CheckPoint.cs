@@ -17,13 +17,14 @@ public class CheckPoint : MonoBehaviour {
 	
 	}
 
-	void OnTriggerExit2D(Collider2D col)
-	{
-		if(col.transform.tag == "Player" && Enabled)
-		{
-			Debug.Log("Spawning Bitches");
-			LevelManager.SpawnNewBlock();
-			Enabled = false;
-		}
-	}
+    void OnTriggerExit2D(Collider2D col)
+    {
+        Debug.Log("WHAT");
+        if (col.transform.tag == "Player" && Enabled)
+        {
+            Debug.Log("Spawning Bitches");
+            LevelManager.SpawnNewBlock();
+            Enabled = false;
+        }
+    }
 }

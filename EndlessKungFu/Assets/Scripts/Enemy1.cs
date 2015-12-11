@@ -9,7 +9,6 @@ public class Enemy1 : MonoBehaviour
     private Animator anim;
     public float move = 0.4f;
     public bool facingLeft;
-    public int x_;
     public float timewithin;
     public bool isAttacking;
     public float attackTime;
@@ -20,13 +19,13 @@ public class Enemy1 : MonoBehaviour
 	    anim = gameObject.GetComponent<Animator>();
         if (facingLeft)
         {
-           anim.SetInteger("walkingAnimation", -1);
+            anim.SetInteger("walkingAnimation", -1);
         }
         else
         {
-            anim.SetInteger("walkingAnimation",1);
+            anim.SetInteger("walkingAnimation", 1);
         }
-	}
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -41,6 +40,14 @@ public class Enemy1 : MonoBehaviour
 	    {
 	        attackTime += Time.deltaTime;
 	    }
+        if (facingLeft)
+        {
+            anim.SetInteger("walkingAnimation", -1);
+        }
+        else
+        {
+            anim.SetInteger("walkingAnimation", 1);
+        }
 
     }
 
@@ -55,7 +62,7 @@ public class Enemy1 : MonoBehaviour
 
         move = -move;      
         rb2d.AddForce(new Vector2(0,10));
-        Destroy(gameObject,8);
+        Destroy(gameObject, 8);
     }
 
     public void OnTriggerStay2D(Collider2D col)
@@ -75,6 +82,14 @@ public class Enemy1 : MonoBehaviour
         if (col.transform.tag == "Player")
         {
             timewithin = 0;
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.transform.tag == "SpawnPointActivator")
+        {
+            Destroy(gameObject);
         }
     }
 }

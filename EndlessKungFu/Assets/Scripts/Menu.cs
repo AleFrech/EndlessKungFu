@@ -39,6 +39,11 @@ public class Menu : MonoBehaviour
         Application.LoadLevel(2);
     }
 
+    public void viewStats()
+    {
+        Application.LoadLevel(4);
+    }
+
     public void exitGame()
     {
         Application.Quit();

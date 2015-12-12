@@ -28,7 +28,9 @@ public class PunchHit : MonoBehaviour {
             
                 col.gameObject.GetComponent<Enemy1>().Die();
                 playerController.AddScore(20);
-          
+                PlayerPrefs.SetInt("TotalPunch", PlayerPrefs.GetInt("TotalPunch") + 1);
+                PlayerPrefs.SetInt("TotalKills", PlayerPrefs.GetInt("TotalKills") + 1);
+
         }
     }
 }

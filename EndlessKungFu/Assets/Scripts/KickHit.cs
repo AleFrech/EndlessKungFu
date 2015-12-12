@@ -29,7 +29,9 @@ public class KickHit : MonoBehaviour {
         {
 
             col.gameObject.GetComponent<Enemy1>().Die();
-            playerController.AddScore(10);
+            playerController.AddScore(10);           
+            PlayerPrefs.SetInt("TotalKick", PlayerPrefs.GetInt("TotalKick")+1);
+            PlayerPrefs.SetInt("TotalKills", PlayerPrefs.GetInt("TotalKills") + 1);
 
         }
     }

@@ -17,7 +17,6 @@ public class Spawner_Time : MonoBehaviour
     void Start()
     {
         TimeElapsed = 0;
-        TimeLimit = 10;
         isRefreshed = true;
     }
 

@@ -8,6 +8,8 @@ namespace Assets.Scripts
     public class Player : MonoBehaviour
     {
         public bool isDead;
+        public static bool x2;
+        public float TimeBonus;
         public bool canBeKilled = true;
         public bool deathAnimPlayed = false;
         public bool facingLeft = true;
@@ -47,6 +49,8 @@ namespace Assets.Scripts
             var kickClip = (AudioClip)Resources.Load("Sounds/Kick Effect");
             kick_sound.clip = kickClip;
             Score = 0;
+            x2 = false;
+            TimeBonus = 0;
         }
 
         // Update is called once per frame
@@ -149,6 +153,15 @@ namespace Assets.Scripts
             Jump(v);
             if (Mathf.Abs(rb2d.velocity.x) > maxSpeed)
                 rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxSpeed, rb2d.velocity.y);
+            if (x2)
+            {
+                TimeBonus += Time.deltaTime;
+                if (TimeBonus >= 15)
+                {
+                    x2 = false;
+                    TimeBonus = 0;
+                }
+            }
         }
 
         void Flip()
@@ -162,7 +175,14 @@ namespace Assets.Scripts
 
         public void AddScore(int x)
         {
-            Score += x;
+            if (x2)
+            {
+                Score +=(x*2);
+            }
+            else
+            {
+                Score += x;
+            }
         }
 
         public string GetScore()

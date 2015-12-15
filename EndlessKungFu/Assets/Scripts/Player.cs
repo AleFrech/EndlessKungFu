@@ -8,7 +8,7 @@ namespace Assets.Scripts
     public class Player : MonoBehaviour
     {
         public bool isDead;
-        public static bool x2;
+        public bool x2;
         public float TimeBonus;
         public bool canBeKilled = true;
         public bool deathAnimPlayed = false;
@@ -30,6 +30,7 @@ namespace Assets.Scripts
         private bool grounded = false;
         private Rigidbody2D rb2d;
         public Animator player_Animation;
+        public AudioSource coin_sound;
         public LayerMask mask;
         public float deathTime;
         public Text WOT;
@@ -51,6 +52,9 @@ namespace Assets.Scripts
             Score = 0;
             x2 = false;
             TimeBonus = 0;
+            coin_sound = gameObject.AddComponent<AudioSource>();
+            var coinClip = (AudioClip)Resources.Load("Sounds/Coin");
+            coin_sound.clip = coinClip;
         }
 
         // Update is called once per frame
@@ -218,5 +222,15 @@ namespace Assets.Scripts
             Application.LoadLevel(3);
             GameOver.score = Score;
         }
+
+        public void OnTriggerStay2D(Collider2D col)
+        {
+            if (col.transform.tag == "Coin")
+            {
+                x2 = true;
+                coin_sound.Play();
+            }
+        }
+
     }
 }

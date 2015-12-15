@@ -8,14 +8,15 @@ public class ScoreMultiplier : MonoBehaviour {
         private Animator anim;
         public float move = 0.4f;
         public bool facingLeft;
+      
 
-        // Use this for initialization
-          void Start()
+    // Use this for initialization
+    void Start()
           {
             
             GameObject playercontrollerObject = GameObject.FindWithTag("Player");
 
-            if (playercontrollerObject != null)
+        if (playercontrollerObject != null)
                 {
                     playerController = playercontrollerObject.GetComponent<Player>();
                 }
@@ -49,15 +50,15 @@ public class ScoreMultiplier : MonoBehaviour {
         {
             if (col.transform.tag == "Player")
             {
-                Player.x2 = true;
                 Destroy(gameObject);
             }
         }
-        public void OnTriggerEnter2D(Collider2D col)
+
+    public void OnTriggerEnter2D(Collider2D col)
         {
             if (col.transform.tag == "SpawnPointActivator")
             {
                 Destroy(gameObject);
             }
-        }
+       }
     }

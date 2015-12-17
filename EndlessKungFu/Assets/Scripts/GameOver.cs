@@ -10,10 +10,8 @@ public class GameOver : MonoBehaviour {
     public static int score;
     void Start ()
     {
-
         ScoreText.text = score.ToString();
         SaveScore(score);
-
     }
 	void Update ()
     {

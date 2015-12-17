@@ -12,7 +12,7 @@ public class Enemy1 : MonoBehaviour
     public float timewithin;
     public bool isAttacking;
     public float attackTime;
-    // Use this for initialization
+
     void Start ()
 	{
 	    rb2d = gameObject.GetComponent<Rigidbody2D>();
@@ -27,7 +27,6 @@ public class Enemy1 : MonoBehaviour
         }
     }
 	
-	// Update is called once per frame
 	void Update ()
 	{
         anim.SetBool("isAttacking",isAttacking);

@@ -8,8 +8,6 @@ public class SpawnPointActivator : MonoBehaviour {
 	public bool isnotStartPoint;
 	
 	public GameObject[] SpawnPointList;
-
-	// Use this for initialization
 	void Start () {
 		LevelManager = GameObject.Find ("Level").GetComponent<lvl> ();
 		isnotStartPoint = true;
@@ -21,7 +19,6 @@ public class SpawnPointActivator : MonoBehaviour {
 		}
 	}
 	
-	// Update is called once per frame
 	void Update () {
 	
 	}

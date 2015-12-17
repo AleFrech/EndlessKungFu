@@ -9,7 +9,6 @@ public class crouchPunchHit : MonoBehaviour {
     void Start()
     {
         GameObject playercontrollerObject = GameObject.FindWithTag("Player");
-
         if (playercontrollerObject != null)
         {
             playerController = playercontrollerObject.GetComponent<Player>();
@@ -24,15 +23,12 @@ public class crouchPunchHit : MonoBehaviour {
 
     public void OnTriggerStay2D(Collider2D col)
     {
-
         if (col.transform.tag.Equals("Enemy") && !playerController.isDead)
         {
-
             col.gameObject.GetComponent<Enemy1>().Die();
             playerController.AddScore(20);
             PlayerPrefs.SetInt("TotalPunch", PlayerPrefs.GetInt("TotalPunch") + 1);
             PlayerPrefs.SetInt("TotalKills", PlayerPrefs.GetInt("TotalKills") + 1);
-
         }
     }
 }

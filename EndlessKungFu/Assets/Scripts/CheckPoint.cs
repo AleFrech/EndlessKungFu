@@ -5,14 +5,11 @@ public class CheckPoint : MonoBehaviour {
 
 	public lvl LevelManager;
 	public bool Enabled;
-	// Use this for initialization
 	void Start () 
 	{
 		LevelManager = GameObject.Find ("Level").GetComponent<lvl> ();
 		Enabled = true;
 	}
-	
-	// Update is called once per frame
 	void Update () {
 	
 	}

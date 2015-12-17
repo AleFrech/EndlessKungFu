@@ -9,7 +9,6 @@ public class PunchHit : MonoBehaviour {
     GameObject playercontrollerObject;
     void Start () {
         playercontrollerObject = GameObject.FindWithTag("Player");
-
         if (playercontrollerObject != null)
         {
             playerController = playercontrollerObject.GetComponent<Player>();
@@ -24,12 +23,11 @@ public class PunchHit : MonoBehaviour {
     {
 
         if (col.transform.tag.Equals("Enemy") && !playerController.isDead)
-        {
-            
-                col.gameObject.GetComponent<Enemy1>().Die();
-                playerController.AddScore(20);
-                PlayerPrefs.SetInt("TotalPunch", PlayerPrefs.GetInt("TotalPunch") + 1);
-                PlayerPrefs.SetInt("TotalKills", PlayerPrefs.GetInt("TotalKills") + 1);
+        {           
+            col.gameObject.GetComponent<Enemy1>().Die();
+            playerController.AddScore(20);
+            PlayerPrefs.SetInt("TotalPunch", PlayerPrefs.GetInt("TotalPunch") + 1);
+            PlayerPrefs.SetInt("TotalKills", PlayerPrefs.GetInt("TotalKills") + 1);
 
         }
     }

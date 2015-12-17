@@ -56,8 +56,6 @@ namespace Assets.Scripts
             var coinClip = (AudioClip)Resources.Load("Sounds/Coin");
             coin_sound.clip = coinClip;
         }
-
-        // Update is called once per frame
         void Update()
         {
             grounded = Physics2D.Linecast(transform.position, groundCheck.position, mask);

@@ -3,13 +3,14 @@ using System.Collections;
 
 public class Spawner_Time : MonoBehaviour
 {
-    [SerializeField] public GameObject[] objectToSpawn;
-    [SerializeField] public float TimeElapsed;
-    [SerializeField] public float TimeLimit;
-    [SerializeField] public float TimeElapsedForRefresh = 0;
-    [SerializeField] public float TimeLimitForRefresh = 1;
-    [SerializeField] public bool isRefreshed;
-    [SerializeField] public bool isTimer;
+    public GameObject[] objectToSpawn;
+    public float TimeElapsed;
+    public float TimeLimit;
+    public float TimeElapsedForRefresh = 0;
+    public float TimeLimitForRefresh = 1;
+    public bool isRefreshed;
+    public bool isTimer;
+    //public bool canSpawn = true;
     public int whatObject = 0;
     public int whatObjectCorrespondant = 0;
 
@@ -47,7 +48,6 @@ public class Spawner_Time : MonoBehaviour
 
     void Spawn()
     {
-        //Pueden Modificar Esto para otras validaciones.
         var ObjectSpawned = (GameObject) Instantiate(objectToSpawn[whatObject]);
         ObjectSpawned.transform.position = this.transform.position;
         ObjectSpawned.transform.parent = this.transform;
@@ -61,7 +61,17 @@ public class Spawner_Time : MonoBehaviour
             whatObject = whatObjectCorrespondant;
             whatObjectCorrespondant = x;
             isRefreshed = false;
+            //canSpawn = true;
         }
     }
+
+
+    //void OnTriggerEnter2D(Collider2D col)
+    //{
+    //    if (col.transform.tag == "Player")
+    //    {
+    //        canSpawn = false;
+    //    }
+    //}
 
 }

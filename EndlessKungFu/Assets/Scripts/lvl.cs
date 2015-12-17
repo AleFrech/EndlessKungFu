@@ -6,7 +6,6 @@ public class lvl : MonoBehaviour {
     public  AudioSource background_sound;
     public  AudioClip backgroundClip;
 	public GameObject[] listBlocks;
-	
 	public GameObject Current;
 	public GameObject Next;
 
@@ -15,10 +14,8 @@ public class lvl : MonoBehaviour {
         background_sound = gameObject.AddComponent<AudioSource>();
         backgroundClip = (AudioClip)Resources.Load("Sounds/Background_Music");
         background_sound.clip = backgroundClip;
-
 		Current = GameObject.Find (listBlocks [0].name);
 		Current.transform.FindChild ("SpawnPointActivator").GetComponent<SpawnPointActivator> ().isnotStartPoint = false;
-
     }
 	
 	// Update is called once per frame

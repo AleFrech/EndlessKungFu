@@ -9,7 +9,6 @@ public class crocuhKickHit : MonoBehaviour {
     void Start()
     {
         GameObject playercontrollerObject = GameObject.FindWithTag("Player");
-
         if (playercontrollerObject != null)
         {
             playerController = playercontrollerObject.GetComponent<Player>();
@@ -27,12 +26,10 @@ public class crocuhKickHit : MonoBehaviour {
 
         if (col.transform.tag.Equals("Enemy") && !playerController.isDead)
         {
-
             col.gameObject.GetComponent<Enemy1>().Die();
             playerController.AddScore(10);
             PlayerPrefs.SetInt("TotalKick", PlayerPrefs.GetInt("TotalKick") + 1);
             PlayerPrefs.SetInt("TotalKills", PlayerPrefs.GetInt("TotalKills") + 1);
-
         }
     }
 }

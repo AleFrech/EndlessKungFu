@@ -13,13 +13,10 @@ public class HighScore : MonoBehaviour {
     {
         LoadScore();
     }
-
     void update()
     {
        
     }
-
-
     public void backToMenu()
     {
         Application.LoadLevel(0);

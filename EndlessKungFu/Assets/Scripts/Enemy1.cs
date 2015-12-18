@@ -29,10 +29,13 @@ public class Enemy1 : MonoBehaviour
 	
 	void Update ()
 	{
-        if (Player.isDead)
-            return;
+	    if (Player.isDead)
+	    {
+	        anim.enabled = false;
+	        return;
+	    }
 
-        anim.SetBool("isAttacking",isAttacking);
+	    anim.SetBool("isAttacking",isAttacking);
         rb2d.velocity = new Vector2(move * 1f, rb2d.velocity.y);
 	    if (attackTime > .30)
 	    {

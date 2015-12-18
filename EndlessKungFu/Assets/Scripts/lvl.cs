@@ -49,7 +49,7 @@ public class lvl : MonoBehaviour {
 
     public void CalculateDifficulty()
     {
-        if (DifficultyProgress > 0 && DifficultyProgress%4 == 0)
+        if (DifficultyProgress > 0 && DifficultyProgress%2 == 0)
         {
             DifficultyProgress = 0;
             Difficulty += 1;

@@ -7,7 +7,7 @@ namespace Assets.Scripts
     
     public class Player : MonoBehaviour
     {
-        public static   bool isDead;
+       
         public bool x2;
         public float TimeBonus;
         public bool canBeKilled = true;
@@ -20,6 +20,7 @@ namespace Assets.Scripts
         public bool attacking = false;
         public bool crouching = false;
         public bool kicking = false;
+        public static bool isDead;
         public bool jumping = false;
         private Animator anim;
         public AudioSource kick_sound;

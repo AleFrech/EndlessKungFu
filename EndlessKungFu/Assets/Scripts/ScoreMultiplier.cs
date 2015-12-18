@@ -32,6 +32,9 @@ public class ScoreMultiplier : MonoBehaviour {
     
         void Update()
         {
+            if (Player.isDead)
+                return;    
+
             rb2d.velocity = new Vector2(move * 1f, rb2d.velocity.y);
             if (facingLeft)
             {

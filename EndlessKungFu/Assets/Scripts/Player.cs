@@ -63,8 +63,6 @@ namespace Assets.Scripts
             {
                 return;
             }
-
-
             grounded = Physics2D.Linecast(transform.position, groundCheck.position, mask);
             if (isDead || !deathAnimPlayed)
             {
@@ -150,13 +148,10 @@ namespace Assets.Scripts
 
         void FixedUpdate()
         {
-            if (!lvl.isPlayed)
+            if (!lvl.isPlayed || isDead)
             {
                 return;
             }
-
-            if (isDead)
-                return;
 
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Jump");

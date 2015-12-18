@@ -33,6 +33,9 @@ public class ButtonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!lvl.isPlayed || Player.isDead)
+            return;
+
         if (walkLeft)
         {
             timeWalkleft += Time.deltaTime;

@@ -9,22 +9,17 @@ public class Menu : MonoBehaviour
 
     public Button playButton;
     public Button exitButton;
-    public AudioSource background_sound;
-    public AudioClip backgroundClip;
 
     // Use this for initialization
     void Start ()
 	{
 	    playButton = playButton.GetComponent<Button>();
-        exitButton = exitButton.GetComponent<Button>();
-        background_sound = gameObject.AddComponent<AudioSource>();
-        backgroundClip = (AudioClip)Resources.Load("Sounds/Game_Start");
-        background_sound.clip = backgroundClip;
-    }
+        exitButton = exitButton.GetComponent<Button>();     
+	}
 
     void update()
     {
-
+        
     }
 
 

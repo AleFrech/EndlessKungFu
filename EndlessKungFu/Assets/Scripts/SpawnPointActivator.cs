@@ -28,6 +28,8 @@ public class SpawnPointActivator : MonoBehaviour {
 		if(col.transform.tag == "Player" && isnotStartPoint && Enabled)
 		{
 			Debug.Log("Spawning Cunts");
+		    LevelManager.DifficultyProgress += .5f;
+		    LevelManager.CalculateDifficulty();
 			Destroy(LevelManager.Current);
 			LevelManager.Current = LevelManager.Next;
 			Enabled = false;

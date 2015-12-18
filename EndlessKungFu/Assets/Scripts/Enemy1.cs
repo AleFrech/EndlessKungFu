@@ -29,6 +29,9 @@ public class Enemy1 : MonoBehaviour
 	
 	void Update ()
 	{
+        if (Player.isDead)
+            return;
+
         anim.SetBool("isAttacking",isAttacking);
         rb2d.velocity = new Vector2(move * 1f, rb2d.velocity.y);
 	    if (attackTime > .30)
@@ -86,7 +89,7 @@ public class Enemy1 : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.transform.tag == "SpawnPointActivator")
+        if (col.transform.tag == "OutofBounds")
         {
             Destroy(gameObject);
         }

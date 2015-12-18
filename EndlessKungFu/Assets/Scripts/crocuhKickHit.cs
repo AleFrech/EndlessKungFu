@@ -24,7 +24,7 @@ public class crocuhKickHit : MonoBehaviour {
     public void OnTriggerStay2D(Collider2D col)
     {
 
-        if (col.transform.tag.Equals("Enemy") && !playerController.isDead)
+        if (col.transform.tag.Equals("Enemy") && !Player.isDead)
         {
             col.gameObject.GetComponent<Enemy1>().Die();
             playerController.AddScore(10);

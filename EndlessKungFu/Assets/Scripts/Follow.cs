@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
 public class Follow : MonoBehaviour {
 
 	public Transform target;
     void Start()
     {
-   
+ 
     }
 
 	void Update () {

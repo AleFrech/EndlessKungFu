@@ -7,7 +7,7 @@ namespace Assets.Scripts
     
     public class Player : MonoBehaviour
     {
-        public bool isDead;
+        public static   bool isDead;
         public bool x2;
         public float TimeBonus;
         public bool canBeKilled = true;
@@ -37,6 +37,7 @@ namespace Assets.Scripts
         public  int Score;
         void Awake()
         {
+            isDead = false;
             rb2d = GetComponent<Rigidbody2D>();
             player_Animation = GetComponent<Animator>();
             punch_sound = gameObject.AddComponent<AudioSource>();
@@ -58,6 +59,12 @@ namespace Assets.Scripts
         }
         void Update()
         {
+            if (!lvl.isPlayed)
+            {
+                return;
+            }
+
+
             grounded = Physics2D.Linecast(transform.position, groundCheck.position, mask);
             if (isDead || !deathAnimPlayed)
             {
@@ -143,6 +150,14 @@ namespace Assets.Scripts
 
         void FixedUpdate()
         {
+            if (!lvl.isPlayed)
+            {
+                return;
+            }
+
+            if (isDead)
+                return;
+
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Jump");
             float c = Input.GetAxis("Crouch");

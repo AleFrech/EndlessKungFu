@@ -1,77 +1,59 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Spawner_Time : MonoBehaviour
 {
+    public GameObject LevelManager;
+    public lvl LevelManagerScript;
     public GameObject[] objectToSpawn;
     public float TimeElapsed;
     public float TimeLimit;
-    public float TimeElapsedForRefresh = 0;
-    public float TimeLimitForRefresh = 1;
-    public bool isRefreshed;
+    public float TimeLimitOffset = 0;
+    public float TimeLimitOffsetRange = 0;
     public bool isTimer;
-    //public bool canSpawn = true;
     public int whatObject = 0;
     public int whatObjectCorrespondant = 0;
+    
 
     // Use this for initialization
     void Start()
     {
         TimeElapsed = 0;
-        isRefreshed = true;
+
+        LevelManager = GameObject.Find("Level");
+        LevelManagerScript = LevelManager.GetComponent<lvl>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!lvl.isPlayed)
+            return;
+
         if (isTimer)
         {
-            if (TimeElapsed >= TimeLimit)
+            if (TimeElapsed >= (TimeLimit + TimeLimitOffset - LevelManagerScript.Difficulty))
             {
                 Spawn();
+                TimeLimitOffset = Random.Range(0, TimeLimitOffsetRange);
                 TimeElapsed = 0;
             }
+
+            
             TimeElapsed += Time.deltaTime;
 
-
-            if (!isRefreshed)
-            {
-                TimeElapsedForRefresh += Time.deltaTime;
-            }
-            if (TimeElapsedForRefresh >= TimeLimitForRefresh)
-            {
-                isRefreshed = true;
-                TimeElapsedForRefresh = 0;
-            }
         }
     }
 
     void Spawn()
     {
         var ObjectSpawned = (GameObject) Instantiate(objectToSpawn[whatObject]);
+        whatObject = Random.Range(0, objectToSpawn.Length);
+        Debug.Log(objectToSpawn.Length);
         ObjectSpawned.transform.position = this.transform.position;
-        ObjectSpawned.transform.parent = this.transform;
+        ObjectSpawned.transform.parent = LevelManager.transform;
     }
-
-    void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.transform.tag == "Player" && isRefreshed)
-        {
-            int x = whatObject;
-            whatObject = whatObjectCorrespondant;
-            whatObjectCorrespondant = x;
-            isRefreshed = false;
-            //canSpawn = true;
-        }
-    }
-
-
-    //void OnTriggerEnter2D(Collider2D col)
-    //{
-    //    if (col.transform.tag == "Player")
-    //    {
-    //        canSpawn = false;
-    //    }
-    //}
-
 }
